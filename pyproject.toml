@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pellet-support"
+version = "0.1.0"
+description = "Close-packed spherical pellet support generator for large-format FDM"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["3d-printing", "support", "pellet", "close-packing", "fdm", "slicer"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "trimesh>=4.0",
+    "shapely>=2.0",
+    "numpy>=1.24",
+    # trimesh 의 3MF 로더가 오브젝트 계층(트리)을 푸는 데 필요하다.
+    # trimesh 의 선택 의존성이라 자동으로 깔리지 않는다.
+    "networkx>=3.0",
+]
+
+[project.optional-dependencies]
+preview = ["matplotlib>=3.5"]
+verify = ["scipy>=1.10"]
+web = ["flask>=3.0"]
+dev = ["pytest>=7", "matplotlib>=3.5", "scipy>=1.10", "flask>=3.0"]
+
+[project.scripts]
+pellet-support = "pellet_support.cli:main"
+pellet-support-web = "pellet_support.webapp:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pellet_support = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
